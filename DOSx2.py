@@ -54,6 +54,13 @@ class DefaultHttpParameters:
         "Mozilla/5.0 (iPhone; CPU iPhone OS 13_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Mobile/15E148 Safari/604.1",
         "Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0)",
         ]
+        
+        accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+        accept_language = "en-us,en;q=0.5"
+        accept_encoding = "gzip,deflate"
+        accept_charset = "ISO-8859-1,utf-8;q=0.7,*;q=0.7"
+        keep_alive = "115"
+        Connection = "keep-alive"
 
     class Requests:
         get_requests = [
@@ -71,3 +78,5 @@ class DefaultHttpParameters:
         ]
 
 
+class Hammer:
+    
