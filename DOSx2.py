@@ -1,6 +1,7 @@
+from termcolor import colored
 import sys
 import socket
-from termcolor import colored
+from queue import Queue
 
 class FontColors:
     """
@@ -92,6 +93,8 @@ class Hammer:
         self.server = target_server
         self.port = target_port
         self.turbo = turbo
+        self.queue_one = Queue()
+        self.queue_two = Queue()
         self.__init__socket()
     
     def __init__socket(self):
