@@ -11,7 +11,7 @@ import threading
 
 def get_parameter():
     """Get Parameters function to attack target address"""
-    
+
     global host
     global port
     global turbo
