@@ -1,11 +1,39 @@
-from termcolor import colored
 from queue import Queue
+from optparse import OptionParser
+from termcolor import colored
 import sys
 import socket
 import urllib.request
 import time
 import random
 import threading
+
+
+def get_parameter():
+    global host
+    global port
+    global turbo
+    optp = OptionParser(add_help_option=False,epilog="Hammers")
+	# optp.add_option("-q","--quiet", help="set logging to ERROR",action="store_const", dest="loglevel",const=logging.ERROR, default=logging.INFO)
+    optp.add_option("-s","--server", dest="host",help="attack to server ip -s ip")
+    optp.add_option("-p","--port",type="int",dest="port",help="-p 80 default 80")
+    optp.add_option("-t","--turbo",type="int",dest="turbo",help="default 135 -t 135")
+    optp.add_option("-h","--help",dest="help",action='store_true',help="help you")
+    opts, args = optp.parse_args()
+	# if opts.help:
+	# 	usage()
+    if opts.host is not None:
+        host = opts.host
+	# else:
+	# 	usage()
+    if opts.port is None:
+        port = 80
+    else:
+        port = opts.port
+    if opts.turbo is None:
+        turbo = 135
+    else:
+        turbo = opts.turbo
 
 class FontColors:
     """
@@ -209,5 +237,6 @@ Connection: {DefaultHttpParameters.Headers.Connection}
 
 if __name__ == "__main__":
     
-    h = Hammer("localhost", 8000)
+    get_parameter()
+    h = Hammer(host, port, turbo)
     h.run()
