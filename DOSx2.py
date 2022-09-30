@@ -100,19 +100,9 @@ class DefaultHttpParameters:
         Connection = "keep-alive"
 
     class Requests:
-        get_requests = [
-            "GET / HTTP/1.1",
-            "GET /static HTTP/1.1",
-            "GET /img HTTP/1.1"
-        ]
+        get_requests = "GET / HTTP/1.1",
         
-        lambda_get_requests = [
-            lambda x: f"GET /?{x} HTTP/1.1",
-            lambda x: f"GET /admin/{x} HTTP/1.1",
-            lambda x: f"GET /admin/static/img/{x} HTTP/1.1",
-            lambda x: f"GET /admin/static/font/{x} HTTP/1.1",
-            lambda x: f"GET /{x} HTTP/1.1",
-        ]
+        lambda_get_requests = lambda x: f"GET /?{x} HTTP/1.1",
 
 
 class Hammer:
@@ -179,7 +169,7 @@ class Hammer:
             create a packet
         """
         
-        packet =  f"""{random.choice(DefaultHttpParameters.Requests.get_requests)}
+        packet =  f"""{DefaultHttpParameters.Requests.get_requests}
 Host: {self.server}
         
 User-Agent: {random.choice(DefaultHttpParameters.Headers.user_agents)}
