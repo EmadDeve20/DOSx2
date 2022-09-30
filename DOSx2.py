@@ -1,7 +1,8 @@
 from termcolor import colored
+from queue import Queue
 import sys
 import socket
-from queue import Queue
+import random
 
 class FontColors:
     """
@@ -110,4 +111,21 @@ class Hammer:
             print(FontColors.red(err.args[1]))
             sys.exit(err.args[0])
 
+    def packet_creator(self) -> str:
+        """
+            create a packet
+        """
         
+        packet =  f"""{random.choice(DefaultHttpParameters.Requests.get_requests)}
+Host: {self.server}
+        
+User-Agent: {random.choice(DefaultHttpParameters.Headers.user_agents)}
+Accept: {DefaultHttpParameters.Headers.accept}
+Accept-Language: {DefaultHttpParameters.Headers.accept_language}
+Accept-Encoding: {DefaultHttpParameters.Headers.accept_encoding}
+Accept-Charset: {DefaultHttpParameters.Headers.accept_charset}
+Keep-Alive: {DefaultHttpParameters.Headers.keep_alive}
+Connection: {DefaultHttpParameters.Headers.Connection}
+        """
+
+        return packet
