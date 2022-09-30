@@ -160,3 +160,13 @@ Connection: {DefaultHttpParameters.Headers.Connection}
         """
 
         return packet
+
+    
+    def server_bot_harrming_attack(self):
+        """ Run bot Harming Attack for Ever """
+        
+        while True:
+            self.queue_two.get()
+            pass
+            self.queue_two.task_done()
+    
