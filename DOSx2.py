@@ -99,17 +99,17 @@ class Hammer:
         self.turbo = turbo
         self.queue_one = Queue()
         self.queue_two = Queue()
-        self.__init__socket()
+        self.check_connection()
     
-    def __init__socket(self):
+    def check_connection(self):
         """
-            Create a socket connection for this class
+            check connection is ok or Not!
         """
         
         try:
-            self.h_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.h_socket.connect((self.server, self.port))
-            self.h_socket.settimeout(1)
+            h_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            h_socket.connect((self.server, self.port))
+            h_socket.settimeout(1)
         except Exception as err:
             print(FontColors.red(err.args[1]))
             sys.exit(err.args[0])
