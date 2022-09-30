@@ -111,6 +111,16 @@ class Hammer:
             print(FontColors.red(err.args[1]))
             sys.exit(err.args[0])
 
+    def server_down_attack(self):
+        """
+            Run Server Down Attack For Ever
+        """
+        
+        while True:
+            self.queue_one.get()
+            pass
+            self.queue_one.task_done()
+    
     def packet_creator(self) -> str:
         """
             create a packet
