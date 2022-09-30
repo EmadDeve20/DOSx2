@@ -1,3 +1,4 @@
+from typing import List
 from termcolor import colored
 
 class FontColors:
@@ -80,3 +81,7 @@ class DefaultHttpParameters:
 
 class Hammer:
     
+    def __init__(self, bots: List[str] = None):
+        
+        self.hammer_bots = ["http://validator.w3.org/check?uri=", "http://www.facebook.com/sharer/sharer.php?u="] + \
+            bots if bots != None else ["http://validator.w3.org/check?uri=", "http://www.facebook.com/sharer/sharer.php?u="]
