@@ -1,4 +1,5 @@
-from typing import List
+import sys
+import socket
 from termcolor import colored
 
 class FontColors:
@@ -91,4 +92,19 @@ class Hammer:
         self.server = target_server
         self.port = target_port
         self.turbo = turbo
+        self.__init__socket()
+    
+    def __init__socket(self):
+        """
+            Create a socket connection for this class
+        """
+        
+        try:
+            self.h_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.h_socket.connect((self.server, self.port))
+            self.h_socket.settimeout(1)
+        except Exception as err:
+            print(FontColors.red(err.args[1]))
+            sys.exit(err.args[0])
+
         
