@@ -119,7 +119,6 @@ class Hammer:
         self.turbo = turbo
         self.queue_one = Queue()
         self.queue_two = Queue()
-        self.check_connection()
     
     def check_connection(self):
         """
@@ -203,6 +202,8 @@ class Hammer:
     
     def run(self):
         """Run Attacks"""
+        
+        self.check_connection()
         
         print(FontColors.green(f"host: {self.server} port: {self.port} turbo: {self.turbo}"))
         print(FontColors.yellow("Hammer Attack will start 5 second later ..."))
