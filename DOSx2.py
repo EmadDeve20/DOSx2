@@ -230,6 +230,19 @@ class Hammer:
                 print(FontColors.blue(time.ctime())+FontColors.yellow(" << Attack Stopping << endl"))
                 sys.exit(0)
 
+
+class Slowloris:
+    """dos Slowloris tool"""
+    
+    def __init__(self, host_target: str, port_target: int, it_is_https: False):
+        
+        self.host = host_target
+        self.port = port_target
+        self.is_https = it_is_https
+        
+        
+
+
 if __name__ == "__main__":
     
     get_parameter()
