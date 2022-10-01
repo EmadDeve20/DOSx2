@@ -150,7 +150,7 @@ class Hammer:
         
         try:
             while True:
-                packet = self.packet_creator().encode('utf-8')
+                packet = self.create_packet().encode('utf-8')
                 h_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 h_socket.connect((self.server, self.port))
                 if h_socket.sendto(packet, (self.server, self.port)):
@@ -163,7 +163,7 @@ class Hammer:
             print(FontColors.red("not connection! server maybe down"))
             time.sleep(.1)
     
-    def packet_creator(self) -> str:
+    def create_packet(self) -> str:
         """
             create a packet
         """
