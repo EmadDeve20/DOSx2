@@ -16,11 +16,15 @@ def get_parameter():
     global host
     global port
     global turbo
+    global socket_count
+    global it_is_https
     optp = OptionParser(add_help_option=False,epilog="Hammers")
 	# optp.add_option("-q","--quiet", help="set logging to ERROR",action="store_const", dest="loglevel",const=logging.ERROR, default=logging.INFO)
     optp.add_option("-s","--server", dest="host",help="attack to server ip -s ip")
     optp.add_option("-p","--port",type="int",dest="port",help="-p 80 default 80")
     optp.add_option("-t","--turbo",type="int",dest="turbo",help="default 135 -t 135")
+    optp.add_option("-c", "--socket-count",type="int",dest="socket_count",help="socket_count for Slowloris attack default 100")
+    optp.add_option("", "--https",dest="it_is_https", action="store_true",help="if the target server is https use this",default=False)
     optp.add_option("-h","--help",dest="help",action='store_true',help="help you")
     opts, args = optp.parse_args()
 	# if opts.help:
@@ -37,6 +41,17 @@ def get_parameter():
         turbo = 135
     else:
         turbo = opts.turbo
+    
+    if opts.socket_count is None:
+        socket_count = 100
+    else:
+        socket_count = opts.socket_count
+    
+    if opts.it_is_https:
+        it_is_https = True
+    else:
+        it_is_https = False
+    
 
 class FontColors:
     """
