@@ -100,9 +100,9 @@ class DefaultHttpParameters:
         Connection = "keep-alive"
 
     class Requests:
-        get_requests = "GET / HTTP/1.1",
+        get_requests = "GET / HTTP/1.1"
         
-        lambda_get_requests = lambda x: f"GET /?{x} HTTP/1.1",
+        lambda_get_requests = lambda x: f"GET /?{x} HTTP/1.1"
 
 
 class Hammer:
@@ -168,19 +168,16 @@ class Hammer:
         """
             create a packet
         """
-        
-        packet =  f"""{DefaultHttpParameters.Requests.get_requests}
-Host: {self.server}
-        
-User-Agent: {random.choice(DefaultHttpParameters.Headers.user_agents)}
-Accept: {DefaultHttpParameters.Headers.accept}
-Accept-Language: {DefaultHttpParameters.Headers.accept_language}
-Accept-Encoding: {DefaultHttpParameters.Headers.accept_encoding}
-Accept-Charset: {DefaultHttpParameters.Headers.accept_charset}
-Keep-Alive: {DefaultHttpParameters.Headers.keep_alive}
-Connection: {DefaultHttpParameters.Headers.Connection}
-        """
 
+        packet = f"{DefaultHttpParameters.Requests.get_requests}\n"
+        packet += f"Host: {self.server}\n\n"
+        packet += f" User-Agent: {random.choice(DefaultHttpParameters.Headers.user_agents)}\n"
+        packet += f"Accept-Language: {DefaultHttpParameters.Headers.accept_language}\n"
+        packet += f"Accept-Encoding: {DefaultHttpParameters.Headers.accept_encoding}\n"
+        packet += f"Accept-Charset: {DefaultHttpParameters.Headers.accept_charset}\n"
+        packet += f"Keep-Alive: {DefaultHttpParameters.Headers.keep_alive}\n"
+        packet += f"Connection: {DefaultHttpParameters.Headers.Connection}\n"
+        
         return packet
 
     
