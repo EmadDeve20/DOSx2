@@ -245,9 +245,10 @@ class Hammer:
                 self.queue_two.put(task_count)
                 thread_lock.release()
             
+    def __del__(self):
 
-            self.queue_one.join()
-            self.queue_two.join()
+        self.queue_one.join()
+        self.queue_two.join()
 
 
 class Slowloris:
