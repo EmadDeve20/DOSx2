@@ -234,7 +234,7 @@ class Hammer:
 class Slowloris:
     """dos Slowloris tool"""
     
-    def __init__(self, host_target: str, port_target: int, it_is_https: False):
+    def __init__(self, host_target: str, port_target: int = 80, it_is_https: bool = False):
         
         self.host = host_target
         self.port = port_target
