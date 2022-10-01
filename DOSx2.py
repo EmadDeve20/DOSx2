@@ -169,8 +169,8 @@ class Hammer:
         """
 
         packet = f"{DefaultHttpParameters.Requests.get_requests}\n"
-        packet += f"Host: {self.server}\n\n"
-        packet += f" User-Agent: {random.choice(DefaultHttpParameters.Headers.user_agents)}\n"
+        packet += f"Host: {self.server}\n"
+        packet += f"User-Agent: {random.choice(DefaultHttpParameters.Headers.user_agents)}\n"
         packet += f"Accept-Language: {DefaultHttpParameters.Headers.accept_language}\n"
         packet += f"Accept-Encoding: {DefaultHttpParameters.Headers.accept_encoding}\n"
         packet += f"Accept-Charset: {DefaultHttpParameters.Headers.accept_charset}\n"
