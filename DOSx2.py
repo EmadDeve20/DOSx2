@@ -225,7 +225,7 @@ class Hammer:
         
         print(FontColors.green(f"host: {self.server} port: {self.port} turbo: {self.turbo}"))
         print(FontColors.yellow("Hammer Attack will start 5 second later ..."))
-        time.sleep(5)
+        time.sleep(socket_count//10*2)
 
         while True:
             
@@ -320,6 +320,8 @@ class Slowloris:
             print(FontColors.blue(time.ctime()), \
             FontColors.green(f"Sending keep-alive headers... Socket count: {len(list_of_sockets)}"))
             
+            thread_lock.release()
+
             for s in list(list_of_sockets):
                 try:
                     s.send(self.create_xa_header())
@@ -335,9 +337,9 @@ class Slowloris:
                 except socket.error:
                     break
                 
-            time.sleep(10)
+
+            time.sleep(turbo/10)
             
-            thread_lock.release()
 
 
     def create_xa_header(self) -> bytes:
