@@ -69,6 +69,7 @@ class Log:
     error = lambda text: print(f"{FontColors.blue([time.ctime()])} {FontColors.red(text)}")
     warning = lambda text: print(f"{FontColors.blue([time.ctime()])} {FontColors.yellow(text)}")
     ok = lambda text: print(f"{FontColors.blue([time.ctime()])} {FontColors.green(text)}")
+    info = lambda text: print(f"{FontColors.blue([time.ctime()])} {FontColors.white(text)}")
     
 
 class DefaultHttpParameters:
@@ -383,8 +384,7 @@ if __name__ == "__main__":
     try:
         main()
     except (KeyboardInterrupt, SystemExit):
-        Log.warning("Stopping DOSx2")
+        Log.info("Stopping DOSx2")
         sys.exit(0)
-    
 
     
