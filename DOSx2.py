@@ -62,6 +62,7 @@ class FontColors:
     blue = lambda text: f"\x1b[34m{text}\x1b[0m"
     green = lambda text: f"\x1b[32m{text}\x1b[0m"
     yellow = lambda text: f"\x1b[33m{text}\x1b[0m"
+    white = lambda text: f"\x1b[37m{text}\x1b[0m"
 
 class Log:
     
