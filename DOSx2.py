@@ -10,6 +10,18 @@ import ssl
 
 thread_lock = threading.Lock()
 
+def usage():
+    print("add your host target with arge -s or --server  [-s 127.0.0.1]")
+    print("add your port target with arge -p or --port  [-p 8000] default is 80")
+    print("add your turbo value for Hammer with arg -t or --turbo [-t 500] default is 135")
+    print("add your socket count value for Slowloris with arg -c or --socket-count [-c 500] default is 100")
+    print("If Your Target is Https, use https arg -h or --https [-https]")
+    print("Example: python DOSx2.py -s 127.0.0.1 -p 8000")
+    print("Example: python DOSx2.py -s 127.0.0.1 -p 8000 -t 500")
+    print("Example: python DOSx2.py -s 127.0.0.1 -p 8000 -c 500")
+    print("Example: python DOSx2.py -s 127.0.0.1 -p 8000 -t 500 -c 500")
+    print("Example: python DOSx2.py -s 127.0.0.1 -p 8000 -t 1000 -c 1000")
+    sys.exit(0)
 
 def get_parameter():
     """Get Parameters function to attack target address"""
@@ -19,7 +31,7 @@ def get_parameter():
     global turbo
     global socket_count
     global it_is_https
-    optp = OptionParser(add_help_option=False,epilog="Hammers")
+    optp = OptionParser(add_help_option=False,epilog="DOSx2")
 	# optp.add_option("-q","--quiet", help="set logging to ERROR",action="store_const", dest="loglevel",const=logging.ERROR, default=logging.INFO)
     optp.add_option("-s","--server", dest="host",help="attack to server ip -s ip")
     optp.add_option("-p","--port",type="int",dest="port",help="-p 80 default 80")
@@ -28,12 +40,12 @@ def get_parameter():
     optp.add_option("", "--https",dest="it_is_https", action="store_true",help="if the target server is https use this",default=False)
     optp.add_option("-h","--help",dest="help",action='store_true',help="help you")
     opts, args = optp.parse_args()
-	# if opts.help:
-	# 	usage()
+    if opts.help:
+        usage()
     if opts.host is not None:
         host = opts.host
-	# else:
-	# 	usage()
+    else:
+        usage()
     if opts.port is None:
         port = 80
     else:
