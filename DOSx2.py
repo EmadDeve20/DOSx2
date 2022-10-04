@@ -1,6 +1,5 @@
 from queue import Queue
 from optparse import OptionParser
-from termcolor import colored
 from random import choice, randint
 import sys
 import socket
@@ -59,10 +58,10 @@ class FontColors:
     """
         List of Colors to print message
     """
-    red = lambda text: colored(text, "red")
-    blue = lambda text: colored(text, "blue")
-    green = lambda text: colored(text, "green")
-    yellow = lambda text: colored(text, "yellow")
+    red = lambda text: f"\x1b[31m{text}\x1b[0m"
+    blue = lambda text: f"\x1b[34m{text}\x1b[0m"
+    green = lambda text: f"\x1b[32m{text}\x1b[0m"
+    yellow = lambda text: f"\x1b[33m{text}\x1b[0m"
 
 class DefaultHttpParameters:
     """
