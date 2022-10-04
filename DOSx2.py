@@ -420,7 +420,7 @@ if __name__ == "__main__":
     # TODO: It (try) Does not Work
     try:
         main()
-    except (KeyboardInterrupt, SystemExit):
+    except KeyboardInterrupt:
         Log.info("Stopping DOSx2")
         sys.exit(0)
 
