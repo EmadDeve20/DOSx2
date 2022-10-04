@@ -63,6 +63,13 @@ class FontColors:
     green = lambda text: f"\x1b[32m{text}\x1b[0m"
     yellow = lambda text: f"\x1b[33m{text}\x1b[0m"
 
+class Log:
+    
+    error = lambda text: f"{FontColors.blue([time.ctime()])} {FontColors.red(text)}"
+    warning = lambda text: f"{FontColors.blue([time.ctime()])} {FontColors.yellow(text)}"
+    ok = lambda text: f"{FontColors.blue([time.ctime()])} {FontColors.green(text)}"
+    
+
 class DefaultHttpParameters:
     """
         there are Default Parameters Like Headers and Requests
